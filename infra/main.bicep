@@ -14,6 +14,18 @@ targetScope = 'subscription'
 // Environment name. This is automatically set by the 'azd' tool.
 @description('Environment name used as a tag for all resources. This is directly mapped to the azd-environment.')
 param environmentName string = ''
+param tagName1 string = 'application'
+param tagValue1 string = 'IPM'
+param tagName2 string = 'Celula'
+param tagValue2 string = 'BR-INFRA'
+param tagName3 string = 'cost'
+param tagValue3 string = 'IPM'
+param tagName4 string = 'CreatedBy'
+param tagValue4 string = 'lcortegi@banrep.gov.co'
+param tagName5 string = 'Departamnto'
+param tagValue5 string = 'DAI'
+param tagName6 string = 'environment'
+param tagValue6 string = 'Desarrollo'
 
 // Location. This is automatically set by the 'azd' tool.
 @description('Primary location for all resources.')
@@ -26,7 +38,14 @@ var _resourceGroupName = !empty(resourceGroupName) ? resourceGroupName : 'rg-${e
 
 // Tag settings
 // default required tags for azd deployment
-var azdTags = { 'azd-env-name': environmentName }
+var azdTags = { 'azd-env-name': environmentName 
+                '${tagName1}': tagValue1
+                '${tagName2}': tagValue2
+                '${tagName3}': tagValue3
+                '${tagName4}': tagValue4
+                '${tagName5}': tagValue5
+                '${tagName6}': tagValue6
+}
 
 @description('Key-value pairs of tags to assign to all resources. The default azd tags are automatically added.')
 param deploymentTags object
@@ -49,33 +68,6 @@ var resourceToken = toLower(uniqueString(subscription().id, environmentName, loc
 param provisionLoadTesting bool = false
 var _provisionLoadTesting = provisionLoadTesting
 
-// Add tags to Resource Group
-param tagName1 string = 'application'
-param tagValue1 string = 'IPM'
-param tagName2 string = 'Celula'
-param tagValue2 string = 'BR-INFRA'
-param tagName3 string = 'cost'
-param tagValue3 string = 'IPM'
-param tagName4 string = 'CreatedBy'
-param tagValue4 string = 'lcortegi@banrep.gov.co'
-param tagName5 string = 'Departamnto'
-param tagValue5 string = 'DAI'
-param tagName6 string = 'environment'
-param tagValue6 string = 'Desarrollo'
-
-resource applyTags 'Microsoft.Resources/tags@2021-04-01' = {
-  name: 'default'
-  properties: {
-    tags: {
-      '${tagName1}': tagValue1
-      '${tagName2}': tagValue2
-      '${tagName3}': tagValue3
-      '${tagName4}': tagValue4
-      '${tagName5}': tagValue5
-      '${tagName6}': tagValue6
-    }
-  }
-}
 
 // Reuse preexisting resources settings
 @description('Settings to define reusable resources.')
